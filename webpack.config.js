@@ -8,7 +8,7 @@ module.exports = (env, argv) => {
   return {
     mode: prod ? "production" : "development",
     devtool: prod ? "hidden-source-map" : "eval",
-    entry: "./src/index.tsx",
+    entry: "./src/index.jsx",
     output: {
       path: path.join(__dirname, "/build"),
       filename: "[name].js",
@@ -18,13 +18,13 @@ module.exports = (env, argv) => {
       hot: true,
     },
     resolve: {
-      extensions: [".js", ".jsx", ".ts", ".tsx"],
+      extensions: [".js", ".jsx",],
     },
     module: {
       rules: [
         {
-          test: /\.tsx?$/,
-          use: ["babel-loader", "ts-loader"],
+          test: /\.js$|jsx/,
+          use: ["babel-loader"],
         },
       ],
     },
