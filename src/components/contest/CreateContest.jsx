@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Header from "../header/Header";
 
 const CreateContest = () => {
+
     return <Wrapper>
         <Header/>
         <CreateContestContainer>

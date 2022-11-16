@@ -1,49 +1,41 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import styled from "styled-components"
 import Header from "../header/Header";
+import {deleteContest, getList} from "../../utils/apis";
 
 const ContestList = () => {
-    return (<Wrapper>
-        <Header/>
-        <CreateContestContainer>
-            <LeftSection>
-                <Title>대회 조회</Title>
-                <List>
-                    <div>
-                        <h2>
-                            최강 알고리즘을 위한 알고리즘 대회
-                        </h2>
-                        <p>
-                            이 대회는 대덕소프트웨어마이스터고등학교에서 하는 대회입니다.
-                        </p>
-                    </div>
-                    <button>삭제</button>
-                </List>
-                <List>
-                    <div>
-                        <h2>
-                            최강 백엔드를 위한 대회
-                        </h2>
-                        <p>
-                            이 대회는 이경수님이 진행하십니다.
-                        </p>
-                    </div>
-                    <button>삭제</button>
-                </List>
-                <List>
-                    <div>
-                        <h2>
-                            2022 겨울 해커톤
-                        </h2>
-                        <p>
-                            이 대회는 이경수님이 우승하실 것입니다.
-                        </p>
-                    </div>
-                    <button>삭제</button>
-                </List>
-            </LeftSection>
-        </CreateContestContainer>
-    </Wrapper>)
+    const [state, setState] = useState([])
+    const Api = getList();
+    const deleteApi = deleteContest();
+    useEffect(() => {
+        Api.then((res) => {
+            setState(res)
+            console.log(res)
+        });
+
+    }, [])
+
+    return (
+        <Wrapper>
+            <Header/>
+            <CreateContestContainer>
+                <LeftSection>
+                    <Title>대회 리스트</Title>{}
+                    {
+                        state.map((value) => (
+                            <List>
+                                <div>
+                                    <h2>{value.title}</h2>
+                                    <h3>{value.introduce}</h3>
+                                </div>
+                                <button onClick={() => deleteApi(value.id)}>삭제</button>
+                            </List>
+                        ))
+                    }
+                </LeftSection>
+            </CreateContestContainer>
+        </Wrapper>
+    )
 }
 
 export default ContestList;
@@ -55,7 +47,7 @@ const Wrapper = styled.div`
     display:flex;
     flex-direction:column;
     align-items:center;
-     margin-bottom: 75px;
+    margin-bottom: 75px;
 
 `;
 
@@ -77,7 +69,7 @@ font-style: normal;
 font-weight: 600;
 font-size: 30px;
 line-height: 48px;
-margin-bottom:60px;
+margin-bottom:75px;
 /* identical to box height, or 160% */
 
 
@@ -86,17 +78,17 @@ color: #000000;
 
 const List = styled.div`
    width: 1410px;
-height: 99px;
+height: 125px;
 font-family: 'Pretendard';
 font-style: normal;
 font-weight: 600;
-line-height: 48px;
+line-height: 50px;
 /* or 160% */
 display:flex;
 flex-direction:row;
 align-items:center;
 justify-content:space-between;
-margin-bottom:50px;
+margin-bottom:75px;
 color: #000000;
 button{
 font-family: 'Pretendard';
@@ -114,12 +106,13 @@ display:flex;
 flex-direction:column;
 align-items:flex-start;
 >h1{
-font-size: 30px;
+font-size: 50px;
 }
 >h2{
-font-size:25px;
->p{
-font-size:16px;
+font-size:40px;
+margin-bottom: 20px;
+>h3{
+font-size:40px;
 }
 }    
 `
