@@ -1,49 +1,40 @@
-import React from "react"
-import styled from "styled-components"
+import React, {useEffect, useState} from "react";
+import styled from "styled-components";
 import Header from "../header/Header";
+import {getQnAList} from "../../utils/apis";
 
 const QnA = () => {
-    return (<Wrapper>
-        <Header/>
-        <CreateContestContainer>
-            <LeftSection>
-                <Title>QnA</Title>
-                <List>
-                    <div>
-                        <h2>
-                            최강 알고리즘을 위한 알고리즘 대회
-                        </h2>
-                        <h3>
-                            어떤 언어를 사용할 수 있나요?
-                        </h3>
-                        <Input type="text" placeholder="답변을 입력하세요. (Enter를 누르세요)"/>
-                    </div>
-                </List>
-                <List>
-                    <div>
-                        <h2>
-                            최강 백엔드를 위한 대회
-                        </h2>
-                        <h3>
-                            이경수님이 누구인가요?
-                        </h3>
-                        <Input type="text" placeholder="답변을 입력하세요. (Enter를 누르세요)"/>
-                    </div>
-                </List>
-                <List>
-                    <div>
-                        <h2>
-                            2022 겨울 해커톤
-                        </h2>
-                        <h3>
-                            주제는 언제 알려주나요?
-                        </h3>
-                        <Input type="text" placeholder="답변을 입력하세요. (Enter를 누르세요)"/>
-                    </div>
-                </List>
-            </LeftSection>
-        </CreateContestContainer>
-    </Wrapper>)
+    const [state, setState] = useState([])
+    const Api = getQnAList();
+    useEffect(() => {
+        Api.then((res) => {
+            setState(res)
+            console.log(res)
+        });
+
+    }, [])
+
+    return (
+        <Wrapper>
+            <Header/>
+            <CreateContestContainer>
+                <LeftSection>
+                    <Title>QnA 리스트</Title>
+                    {
+                        state.map((value) => (
+                            <List>
+                                <div>
+                                    <h2>{value.contest_name}</h2>
+                                    <h3>{value.question_title}</h3>
+                                </div>
+                                <Input type="text" placeholder="답변을 입력하세요. (Enter를 누르세요)"/>
+                            </List>
+                        ))
+                    }
+                </LeftSection>
+            </CreateContestContainer>
+        </Wrapper>
+    )
 }
 
 export default QnA;
@@ -55,7 +46,7 @@ const Wrapper = styled.div`
     display:flex;
     flex-direction:column;
     align-items:center;
-     margin-bottom: 75px;
+    margin-bottom: 75px;
 
 `;
 
