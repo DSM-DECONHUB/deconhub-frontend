@@ -6,7 +6,6 @@ import {deleteContest, getList} from "../../utils/apis";
 const ContestList = () => {
     const [state, setState] = useState([])
     const Api = getList();
-    const deleteApi = deleteContest();
     useEffect(() => {
         Api.then((res) => {
             setState(res)
@@ -28,7 +27,7 @@ const ContestList = () => {
                                     <h2>{value.title}</h2>
                                     <h3>{value.introduce}</h3>
                                 </div>
-                                <button onClick={() => deleteApi(value.id)}>삭제</button>
+                                <button onClick={() => deleteContest(value.id)}>삭제</button>
                             </List>
                         ))
                     }
